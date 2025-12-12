@@ -6,13 +6,12 @@ import { useForm } from "react-hook-form"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/atoms/form"
-import { TLoginRequest, TLoginResponse } from "@/services/auth/types"
+import { TLoginRequest } from "@/services/auth/types"
 import { Input } from "@/components/atoms/input"
 import { useState } from "react"
 import { Button } from "@/components/atoms/button"
@@ -27,13 +26,6 @@ const Login = () => {
     //   isRememberMe: !!rememberMeParsed,
     // },
   })
-
-  const [isOpenConfirmTFADialog, setIsOpenConfirmTFADialog] =
-    useState<boolean>(false)
-  const [userId, setUserId] = useState<string>("")
-  const [loginResponse, setLoginResponse] = useState<TLoginResponse | null>(
-    null
-  )
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
   const otherMethods = [
@@ -252,7 +244,7 @@ const Login = () => {
                 </motion.div>
                 <div>
                   <p className="text-foreground text-center">
-                    Don't have an account?{" "}
+                    {"Don't have an account? "}
                     <Link href="/register" className="text-warning underline">
                       Create Account
                     </Link>

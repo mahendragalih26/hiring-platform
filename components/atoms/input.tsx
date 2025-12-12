@@ -1,16 +1,16 @@
-import * as React from "react";
-import { cn } from "@/utils/classname";
-import { formatCurrency } from "@/utils/currency";
+import * as React from "react"
+import { cn } from "@/utils/classname"
+import { formatCurrency } from "@/utils/currency"
 
 interface InputProps extends React.ComponentProps<"input"> {
-  startIcon?: React.ReactNode;
-  endIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
-  variant?: "default" | "currency" | "number";
-  currency?: string;
-  fractionDigits?: number;
-  styleCurrency?: "currency" | "decimal";
-  allowMinusValue?: boolean;
+  startIcon?: React.ReactNode
+  endIcon?: React.ReactNode
+  rightIcon?: React.ReactNode
+  variant?: "default" | "currency" | "number"
+  currency?: string
+  fractionDigits?: number
+  styleCurrency?: "currency" | "decimal"
+  allowMinusValue?: boolean
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -30,30 +30,30 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       allowMinusValue = false,
       ...props
     },
-    ref,
+    ref
   ) => {
-    const [displayValue, setDisplayValue] = React.useState<string>("");
+    const [displayValue, setDisplayValue] = React.useState<string>("")
 
     React.useEffect(() => {
       if (variant === "currency") {
         if (typeof value === "number") {
           setDisplayValue(
-            formatCurrency(value, currency, fractionDigits, styleCurrency),
-          );
+            formatCurrency(value, currency, fractionDigits, styleCurrency)
+          )
         } else if (typeof value === "string") {
-          const raw = Number(value.replace(/\D/g, ""));
+          const raw = Number(value.replace(/\D/g, ""))
           setDisplayValue(
-            formatCurrency(raw, currency, fractionDigits, styleCurrency),
-          );
+            formatCurrency(raw, currency, fractionDigits, styleCurrency)
+          )
         }
       } else if (variant === "number") {
-        setDisplayValue(value?.toString() || "");
+        setDisplayValue(value?.toString() || "")
       }
-    }, [value, variant, currency, fractionDigits]);
+    }, [value, variant, currency, fractionDigits, styleCurrency])
 
     const handleCurrencyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const rawValue = e.target.value.replace(/\D/g, "");
-      const numericValue = Number(rawValue);
+      const rawValue = e.target.value.replace(/\D/g, "")
+      const numericValue = Number(rawValue)
 
       if (onChange) {
         onChange({
@@ -62,16 +62,16 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             ...e.target,
             value: numericValue.toString(),
           },
-        });
+        })
       }
-    };
+    }
 
     const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const rawValue = e.target.value;
+      const rawValue = e.target.value
 
       const numericValue = allowMinusValue
         ? Number(rawValue)
-        : Math.max(0, Number(rawValue));
+        : Math.max(0, Number(rawValue))
 
       if (onChange) {
         onChange({
@@ -80,9 +80,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             ...e.target,
             value: numericValue.toString(),
           },
-        });
+        })
       }
-    };
+    }
 
     return (
       <div className="relative">
@@ -112,29 +112,29 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             "focus:outline-0",
             (startIcon || rightIcon) && "pl-10",
             endIcon && "pr-10",
-            className,
+            className
           )}
           value={
             variant === "currency"
               ? displayValue
               : variant === "number"
-                ? displayValue
-                : (value as string)
+              ? displayValue
+              : (value as string)
           }
           onChange={
             variant === "currency"
               ? handleCurrencyChange
               : variant === "number"
-                ? handleNumberChange
-                : onChange
+              ? handleNumberChange
+              : onChange
           }
           {...props}
         />
       </div>
-    );
-  },
-);
+    )
+  }
+)
 
-Input.displayName = "Input";
+Input.displayName = "Input"
 
-export { Input };
+export { Input }
